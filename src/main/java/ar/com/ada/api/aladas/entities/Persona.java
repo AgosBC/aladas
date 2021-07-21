@@ -4,13 +4,16 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import ar.com.ada.api.aladas.entities.Pais.PaisEnum;
+import ar.com.ada.api.aladas.entities.Pais.TipoDocuEnum;
+
 @MappedSuperclass
 public class Persona {
 
     private String nombre;
 
     @Column(name = "tipo_documento_id")
-    private String tipoDocumentoId;
+    private Integer tipoDocumentoId;
 
     private String documento;
 
@@ -28,12 +31,12 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    public String getTipoDocumentoId() {
-        return tipoDocumentoId;
+    public TipoDocuEnum getTipoDocumentoId() {
+        return TipoDocuEnum.parse(this.tipoDocumentoId);
     }
 
-    public void setTipoDocumentoId(String tipoDocumentoId) {
-        this.tipoDocumentoId = tipoDocumentoId;
+    public void setTipoDocumentoId(TipoDocuEnum tipoDocumentoId) {
+        this.tipoDocumentoId = tipoDocumentoId.getValue();
     }
 
     public String getDocumento() {
@@ -52,12 +55,12 @@ public class Persona {
         this.fechaNacimento = fechaNacimento;
     }
 
-    public Integer getPaisId() {
-        return paisId;
+    public PaisEnum getPaisId() {
+        return PaisEnum.parse(this.paisId);
     }
 
-    public void setPaisId(Integer paisId) {
-        this.paisId = paisId;
+    public void setPaisId(PaisEnum paisId) {
+        this.paisId = paisId.getValue();
     }
 
     
