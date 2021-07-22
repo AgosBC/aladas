@@ -18,6 +18,7 @@ public class Persona {
     private String documento;
 
     @Column(name = "fecha_nacimento")
+    @Temporal(TemporalType.DATE)
     private Date fechaNacimento;
 
     @Column(name = "pais_id")
