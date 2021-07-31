@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.aladas.entities.Aeropuerto;
 import ar.com.ada.api.aladas.entities.Vuelo;
+import ar.com.ada.api.aladas.entities.Vuelo.EstadoVueloEnum;
 import ar.com.ada.api.aladas.repos.VueloRepository;
 
 @Service
@@ -25,8 +26,10 @@ public class VueloService {
 
     public Vuelo crear(Date fecha, Integer capacidad, String aeropOrigenIATA, String aeropDestinoIATA, BigDecimal precio, String codigoMoneda){
         Vuelo vuelo = new Vuelo();
+
         vuelo.setFecha(fecha);
         vuelo.setCapacidad(capacidad);
+        vuelo.setEstadoVueloId(EstadoVueloEnum.GENERADO);
 
         //buscar el aeropuerto por codigo iata, el set de la clase Vuelo, los aerop estan por codigo integer
         // voy a necesitar llamar al service de aeropuerto para usar el findbyCodigoIATA, lo declaro arriba
@@ -39,6 +42,8 @@ public class VueloService {
 
         vuelo.setFecha(fecha);
         vuelo.setCodigoMoneda(codigoMoneda);
+
+        //if (this.validar(vuelo) == )
 
         return repo.save(vuelo);
     }

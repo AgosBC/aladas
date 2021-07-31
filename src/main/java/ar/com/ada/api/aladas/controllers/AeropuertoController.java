@@ -2,6 +2,7 @@ package ar.com.ada.api.aladas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ public class AeropuertoController {
     @Autowired
     public AeropuertoService service;
 
+    @PostMapping("/api/aeropuertos")
     public ResponseEntity<GenericResponse> crear(@RequestBody Aeropuerto aeropuerto){
 
         GenericResponse rta = new GenericResponse();
