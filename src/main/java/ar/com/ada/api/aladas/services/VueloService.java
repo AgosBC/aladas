@@ -18,6 +18,11 @@ public class VueloService {
     @Autowired
     private AeropuertoService aeroService;
 
+    public void crear (Vuelo vuelo){
+
+        repo.save(vuelo);
+    }
+
     public Vuelo crear(Date fecha, Integer capacidad, String aeropOrigenIATA, String aeropDestinoIATA, BigDecimal precio, String codigoMoneda){
         Vuelo vuelo = new Vuelo();
         vuelo.setFecha(fecha);
@@ -54,7 +59,7 @@ public class VueloService {
         if (vuelo.getPrecio() == null) {
             return false;
         }
-        if (vuelo.getPrecio().doubleValue() < 0)
+        if (vuelo.getPrecio().doubleValue() > 0)
             return true;
 
         return false;

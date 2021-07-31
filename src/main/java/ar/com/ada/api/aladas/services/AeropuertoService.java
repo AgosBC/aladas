@@ -1,6 +1,6 @@
 package ar.com.ada.api.aladas.services;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,4 +36,31 @@ public class AeropuertoService {
 
     }
     
+    public boolean validarCodigoIATA(Aeropuerto aeropuerto){
+        if(aeropuerto.getCodigoIATA().length() != 3 ){
+            return false;
+        }
+
+        String codigoIATA = aeropuerto.getCodigoIATA();
+
+        for(int i = 0; i < codigoIATA.length(); i++){
+            char letra = codigoIATA.charAt(i); // en cada vuelta (3, una por cada letra) chequea que esas letras esten 
+            
+            if (! (letra >= 'A' && letra <= 'Z')){
+                return false;
+            }
+        } return true;
+    }
+    
+    public Aeropuerto buscarPorId(Integer id) {
+
+        Optional<Aeropuerto> resultado = repo.findById(id);
+        Aeropuerto aeropuerto = null;
+
+        if (resultado.isPresent())
+            aeropuerto = resultado.get();
+
+    
+        return aeropuerto;
+    }
 }
