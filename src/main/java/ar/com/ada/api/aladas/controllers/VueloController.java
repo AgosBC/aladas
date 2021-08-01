@@ -11,6 +11,7 @@ import ar.com.ada.api.aladas.entities.Vuelo;
 import ar.com.ada.api.aladas.models.response.GenericResponse;
 import ar.com.ada.api.aladas.services.AeropuertoService;
 import ar.com.ada.api.aladas.services.VueloService;
+import ar.com.ada.api.aladas.services.VueloService.ValidacionVueloDataEnum;
 
 @RestController
 public class VueloController {
@@ -35,17 +36,25 @@ public class VueloController {
     public ResponseEntity<GenericResponse> postCrearVueloV2(@RequestBody Vuelo vuelo){
 
         GenericResponse rta = new GenericResponse();
+        ValidacionVueloDataEnum resultadoValido = service.validar(vuelo);
+        if( resultadoValido == ValidacionVueloDataEnum.OK){
 
-        Aeropuerto ao = aeroService.buscarPorId(vuelo.getAeropuertoOrigen());
-        Aeropuerto ad = aeroService.buscarPorId(vuelo.getAeropuertoDestino());
+            Aeropuerto ao = aeroService.buscarPorId(vuelo.getAeropuertoOrigen());
+            Aeropuerto ad = aeroService.buscarPorId(vuelo.getAeropuertoDestino());
+             
+            Vuelo vueloNuevo = service.crear(vuelo.getFecha(), vuelo.getCapacidad(), ao.getCodigoIATA(), ad.getCodigoIATA(), vuelo.getPrecio(), vuelo.getCodigoMoneda());
 
-        Vuelo vueloNuevo = service.crear(vuelo.getFecha(), vuelo.getCapacidad(), ao.getCodigoIATA(), ad.getCodigoIATA(), vuelo.getPrecio(), vuelo.getCodigoMoneda());
+            rta.isOk = true;
+            rta.id = vueloNuevo.getVueloId();
+            rta.message = "El vuelo ha sido creado exitosamente";
 
-        rta.isOk = true;
-        rta.id = vueloNuevo.getVueloId();
-        rta.message = "El vuelo ha sido crado exitosamente";
+            return ResponseEntity.ok(rta);
+        } else{
+            rta.isOk = false;
+            rta.message = "ERROR (" + resultadoValido.toString() + ")";
 
-        return ResponseEntity.ok(rta);
+            return ResponseEntity.badRequest().body(rta);
+        }
 
 
         

@@ -26,6 +26,7 @@ public class VueloService {
 
     public Vuelo crear(Date fecha, Integer capacidad, String aeropOrigenIATA, String aeropDestinoIATA, BigDecimal precio, String codigoMoneda){
         Vuelo vuelo = new Vuelo();
+        
 
         vuelo.setFecha(fecha);
         vuelo.setCapacidad(capacidad);
@@ -36,6 +37,8 @@ public class VueloService {
         Aeropuerto aeropuertoOrigen = aeroService.buscarPorCodigoIATA(aeropOrigenIATA);
 
         Aeropuerto aeropuertoDestino = aeroService.buscarPorCodigoIATA(aeropDestinoIATA);
+
+        vuelo.setPrecio(precio);
 
         vuelo.setAeropuertoOrigen(aeropuertoOrigen.getAeropuertoId());
         vuelo.setAeropuertoDestino(aeropuertoDestino.getAeropuertoId());

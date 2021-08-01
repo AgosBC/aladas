@@ -51,9 +51,11 @@ public class AeropuertoService {
             }
         } return true;
     }
+
+    //public Aeropuerto buscarPorId()
     
     public Aeropuerto buscarPorId(Integer id) {
-
+        
         Optional<Aeropuerto> resultado = repo.findById(id);
         Aeropuerto aeropuerto = null;
 
