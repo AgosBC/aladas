@@ -1,12 +1,14 @@
 package ar.com.ada.api.aladas.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.aladas.entities.Aeropuerto;
 import ar.com.ada.api.aladas.entities.Vuelo;
-import ar.com.ada.api.aladas.models.request.EstVueloNuevo;
+import ar.com.ada.api.aladas.models.request.EstVueloRequest;
 import ar.com.ada.api.aladas.models.response.GenericResponse;
 import ar.com.ada.api.aladas.services.AeropuertoService;
 import ar.com.ada.api.aladas.services.VueloService;
@@ -35,14 +37,17 @@ public class VueloController {
     public ResponseEntity<GenericResponse> postCrearVuelo(@RequestBody Vuelo vuelo){
 
         GenericResponse rta = new GenericResponse();
+
         
+
         ValidacionVueloDataEnum resultadoValido = service.validar(vuelo);
         
         if( resultadoValido == ValidacionVueloDataEnum.OK){
-            
+
             Aeropuerto ao = aeroService.buscarPorId(vuelo.getAeropuertoOrigen());
                      
-            Aeropuerto ad = aeroService.buscarPorId(vuelo.getAeropuertoDestino()); 
+            Aeropuerto ad = aeroService.buscarPorId(vuelo.getAeropuertoDestino());            
+            
             
            
             Vuelo vueloNuevo = service.crear(vuelo.getFecha(), vuelo.getCapacidad(), ao.getCodigoIATA(), ad.getCodigoIATA(), vuelo.getPrecio(), vuelo.getCodigoMoneda());
@@ -77,8 +82,27 @@ public class VueloController {
         
     }
     
-   // @PutMapping("api/vuelos/{id}/estados")
-   // public ResponseEntity<GenericResponse> putActualizarEstadoVuelo(@PathVariable Integer id, @RequestBody EstVueloNuevo )
+    @PutMapping("api/vuelos/{id}/estados")
+    public ResponseEntity<GenericResponse> putActualizarEstadoVuelo(@PathVariable Integer id, @RequestBody EstVueloRequest estadoVuelo){
+
+    GenericResponse r = new GenericResponse();
+
+    Vuelo vuelo = service.buscarPorId(id);
+
+    vuelo.setEstadoVueloId(estadoVuelo.estado);
+
+    service.guardar(vuelo);
+
+    r.isOk = true;
+    r.message = "Vuelo actualizado";
+
+    return ResponseEntity.ok(r);
+    }
+
+    @GetMapping("/api/vuelos/abiertos")
+    public ResponseEntity<List<Vuelo>> getVuelosAbiertos() {
+        return ResponseEntity.ok(service.traerVuelosAbiertos());
+    }
 
 
     

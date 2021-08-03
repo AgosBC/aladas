@@ -5,6 +5,8 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "vuelo")
 public class Vuelo {
@@ -33,6 +35,7 @@ public class Vuelo {
     private String codigoMoneda;
 
     //lista de reservas mapeada
+    @JsonIgnore
     @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reserva> reservas = new ArrayList<>();
 

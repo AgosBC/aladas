@@ -57,17 +57,15 @@ public class AeropuertoService {
     
     public Aeropuerto buscarPorId(Integer id) {
         
-        Optional<Aeropuerto> resultado = repo.findById(id);
-        Aeropuerto aeropuerto = null;
-
-        if (resultado.isPresent())
-            aeropuerto = resultado.get();
-            
-        return aeropuerto;
-        
-        
+        return repo.findByAeropuertoId(id);         
 
         
+    }
+
+    public boolean verificarAeropuertoExiste(Integer id){
+        if (this.buscarPorId(id) == null){
+            return false;
+        } else return true;
     }
 
 

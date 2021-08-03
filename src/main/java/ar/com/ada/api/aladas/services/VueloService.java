@@ -10,7 +10,7 @@ import ar.com.ada.api.aladas.entities.Aeropuerto;
 import ar.com.ada.api.aladas.entities.Vuelo;
 import ar.com.ada.api.aladas.entities.Vuelo.EstadoVueloEnum;
 import ar.com.ada.api.aladas.repos.VueloRepository;
-import net.bytebuddy.asm.Advice.Return;
+
 
 @Service
 public class VueloService {
@@ -61,13 +61,13 @@ public class VueloService {
             return ValidacionVueloDataEnum.ERROR_AEROPUERTOS_IGUALES;
 
         if (!validarCapacidad(vuelo))
-        return ValidacionVueloDataEnum.ERROR_CAPACIDAD_MINIMA;
+            return ValidacionVueloDataEnum.ERROR_CAPACIDAD_MINIMA;
 
-        if (!validarOrigenNulo(vuelo))
-        return ValidacionVueloDataEnum.ERROR_AEROPUERTO_ORIGEN;
+        if (!validarOrigenNulo(vuelo)){
+            return ValidacionVueloDataEnum.ERROR_AEROPUERTO_ORIGEN;}
 
-        if (!validarDestinoNulo(vuelo))
-        return ValidacionVueloDataEnum.ERROR_AEROPUERTO_DESTINO;
+        if (!validarDestinoNulo(vuelo)){
+            return ValidacionVueloDataEnum.ERROR_AEROPUERTO_DESTINO;}
 
        
         return ValidacionVueloDataEnum.OK;
@@ -104,26 +104,28 @@ public class VueloService {
         return vuelo.getAeropuertoDestino() != vuelo.getAeropuertoOrigen();
 
     }
+   
 
     public boolean validarOrigenNulo(Vuelo vuelo){
 
-        Aeropuerto origen = aeroService.buscarPorId(vuelo.getAeropuertoOrigen()); 
-        
-        if (origen == null);
-           
-        return false;
-            
+        return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoOrigen());
     }
 
     public boolean validarDestinoNulo(Vuelo vuelo){
 
-        Aeropuerto destino = aeroService.buscarPorId(vuelo.getAeropuertoOrigen()); 
+        return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoDestino());
+    }
+
+    /*public boolean validarDestinoNulo(Vuelo vuelo){
+
+        Aeropuerto destino = aeroService.buscarPorId(vuelo.getAeropuertoDestino()); 
         
         if (destino == null);
            
-        return false;
+        return true; // este metodo no funciona, entre otras cosas estaba realizando en el service de 
+        // vuelo algo que le compete a aeropuerto, como es la validacion de aeropuertos
             
-    }
+    }*/
 
     
     public Vuelo buscarPorId(Integer id) {
@@ -136,12 +138,19 @@ public class VueloService {
         repo.save(vuelo);
     }
 
+    public List<Vuelo> traerVuelosAbiertos() {
+
+        return repo.findByEstadoVueloId(EstadoVueloEnum.ABIERTO.getValue());
+
+        
+    }
+
     
 
     public enum ValidacionVueloDataEnum {
         OK, ERROR_PRECIO, ERROR_AEROPUERTO_ORIGEN, ERROR_AEROPUERTO_DESTINO, ERROR_FECHA, ERROR_MONEDA,
         ERROR_CAPACIDAD_MINIMA, ERROR_CAPACIDAD_MAXIMA, ERROR_AEROPUERTOS_IGUALES, ERROR_GENERAL,
     }
-
+ 
 
 }
