@@ -1,7 +1,7 @@
 package ar.com.ada.api.aladas.services;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import ar.com.ada.api.aladas.entities.Aeropuerto;
 import ar.com.ada.api.aladas.entities.Vuelo;
 import ar.com.ada.api.aladas.entities.Vuelo.EstadoVueloEnum;
 import ar.com.ada.api.aladas.repos.VueloRepository;
+import net.bytebuddy.asm.Advice.Return;
 
 @Service
 public class VueloService {
@@ -46,7 +47,7 @@ public class VueloService {
         vuelo.setFecha(fecha);
         vuelo.setCodigoMoneda(codigoMoneda);
 
-        //if (this.validar(vuelo) == )
+        
 
         return repo.save(vuelo);
     }
@@ -59,7 +60,27 @@ public class VueloService {
         if (!validarAeropuertoOrigenDiffDestino(vuelo))
             return ValidacionVueloDataEnum.ERROR_AEROPUERTOS_IGUALES;
 
+        if (!validarCapacidad(vuelo))
+        return ValidacionVueloDataEnum.ERROR_CAPACIDAD_MINIMA;
+
+        if (!validarOrigenNulo(vuelo))
+        return ValidacionVueloDataEnum.ERROR_AEROPUERTO_ORIGEN;
+
+        if (!validarDestinoNulo(vuelo))
+        return ValidacionVueloDataEnum.ERROR_AEROPUERTO_DESTINO;
+
+       
         return ValidacionVueloDataEnum.OK;
+
+
+    }
+
+    public boolean validarCapacidad(Vuelo vuelo){
+
+        if(vuelo.getCapacidad() <= 0){
+            return false;
+            
+        } return true;
     }
 
     public boolean validarPrecio(Vuelo vuelo) {
@@ -78,9 +99,44 @@ public class VueloService {
          * if(vuelo.getAeropuertoDestino() != vuelo.getAeropuertoOrigen()) return true;
          * else return false;
          */
+
+        
         return vuelo.getAeropuertoDestino() != vuelo.getAeropuertoOrigen();
 
     }
+
+    public boolean validarOrigenNulo(Vuelo vuelo){
+
+        Aeropuerto origen = aeroService.buscarPorId(vuelo.getAeropuertoOrigen()); 
+        
+        if (origen == null);
+           
+        return false;
+            
+    }
+
+    public boolean validarDestinoNulo(Vuelo vuelo){
+
+        Aeropuerto destino = aeroService.buscarPorId(vuelo.getAeropuertoOrigen()); 
+        
+        if (destino == null);
+           
+        return false;
+            
+    }
+
+    
+    public Vuelo buscarPorId(Integer id) {
+        
+        return repo.findByVueloId(id);   
+           
+    }
+
+    public void guardar (Vuelo vuelo){
+        repo.save(vuelo);
+    }
+
+    
 
     public enum ValidacionVueloDataEnum {
         OK, ERROR_PRECIO, ERROR_AEROPUERTO_ORIGEN, ERROR_AEROPUERTO_DESTINO, ERROR_FECHA, ERROR_MONEDA,

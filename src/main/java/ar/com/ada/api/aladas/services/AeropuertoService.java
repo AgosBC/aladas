@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ar.com.ada.api.aladas.entities.Aeropuerto;
 import ar.com.ada.api.aladas.repos.AeropuertoRepository;
+import ar.com.ada.api.aladas.services.VueloService.ValidacionVueloDataEnum;
 
 @Service
 public class AeropuertoService {
@@ -17,7 +18,7 @@ public class AeropuertoService {
     public void crear(Integer aeropuertoId, String nombre, String codigoIATA) {
 
         Aeropuerto aeropuerto = new Aeropuerto();
-
+        
         aeropuerto.setAeropuertoId(aeropuertoId);
         aeropuerto.setNombre(nombre);
         aeropuerto.setCodigoIATA(codigoIATA);
@@ -61,8 +62,13 @@ public class AeropuertoService {
 
         if (resultado.isPresent())
             aeropuerto = resultado.get();
-
-    
+            
         return aeropuerto;
+        
+        
+
+        
     }
+
+
 }

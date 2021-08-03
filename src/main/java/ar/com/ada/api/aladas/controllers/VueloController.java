@@ -2,12 +2,11 @@ package ar.com.ada.api.aladas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import ar.com.ada.api.aladas.entities.Aeropuerto;
 import ar.com.ada.api.aladas.entities.Vuelo;
+import ar.com.ada.api.aladas.models.request.EstVueloNuevo;
 import ar.com.ada.api.aladas.models.response.GenericResponse;
 import ar.com.ada.api.aladas.services.AeropuertoService;
 import ar.com.ada.api.aladas.services.VueloService;
@@ -33,15 +32,19 @@ public class VueloController {
    
 
     @PostMapping("/api/vuelos")
-    public ResponseEntity<GenericResponse> postCrearVueloV2(@RequestBody Vuelo vuelo){
+    public ResponseEntity<GenericResponse> postCrearVuelo(@RequestBody Vuelo vuelo){
 
         GenericResponse rta = new GenericResponse();
+        
         ValidacionVueloDataEnum resultadoValido = service.validar(vuelo);
+        
         if( resultadoValido == ValidacionVueloDataEnum.OK){
-
+            
             Aeropuerto ao = aeroService.buscarPorId(vuelo.getAeropuertoOrigen());
-            Aeropuerto ad = aeroService.buscarPorId(vuelo.getAeropuertoDestino());
-             
+                     
+            Aeropuerto ad = aeroService.buscarPorId(vuelo.getAeropuertoDestino()); 
+            
+           
             Vuelo vueloNuevo = service.crear(vuelo.getFecha(), vuelo.getCapacidad(), ao.getCodigoIATA(), ad.getCodigoIATA(), vuelo.getPrecio(), vuelo.getCodigoMoneda());
 
             rta.isOk = true;
@@ -49,6 +52,7 @@ public class VueloController {
             rta.message = "El vuelo ha sido creado exitosamente";
 
             return ResponseEntity.ok(rta);
+           
         } else{
             rta.isOk = false;
             rta.message = "ERROR (" + resultadoValido.toString() + ")";
@@ -61,7 +65,7 @@ public class VueloController {
     }
 
     @PostMapping("/api/vuelos/v2")
-    public ResponseEntity<GenericResponse> postCrearVuelo(@RequestBody Vuelo vuelo){
+    public ResponseEntity<GenericResponse> CrearVuelo(@RequestBody Vuelo vuelo){
 
         GenericResponse rta = new GenericResponse();
 
@@ -72,6 +76,9 @@ public class VueloController {
 
         
     }
+    
+   // @PutMapping("api/vuelos/{id}/estados")
+   // public ResponseEntity<GenericResponse> putActualizarEstadoVuelo(@PathVariable Integer id, @RequestBody EstVueloNuevo )
 
 
     
