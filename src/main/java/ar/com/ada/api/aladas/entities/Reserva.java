@@ -15,14 +15,14 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "vuelo_id", referencedColumnName = "vuelo_id")
-    private Vuelo vuelo; 
+    private Vuelo vuelo;
 
     @ManyToOne
     @JoinColumn(name = "pasajero_id", referencedColumnName = "pasajero_id")
     private Pasajero pasajero;
 
     @Column(name = "estado_reserva_id")
-    private Integer estadoReservaId;    
+    private Integer estadoReservaId;
 
     @Column(name = "fecha_emision")
     private Date fechaEmision;
@@ -30,12 +30,11 @@ public class Reserva {
     @Column(name = "fecha_vencimiento")
     private Date fechaVencimiento;
 
-    //agrego pasaje. que servira para relacionar una reserva con un pasaje
+    // agrego pasaje. que servira para relacionar una reserva con un pasaje
 
     @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Pasaje pasaje; // en linea 41: nombre del atributo que hace referencia a la tabla
-  
-   
+
     public Integer getReservaId() {
         return reservaId;
     }
@@ -84,14 +83,15 @@ public class Reserva {
         this.estadoReservaId = estadoReservaId.getValue();
     }
 
-    public Pasaje getPasaje(){
+    public Pasaje getPasaje() {
         return pasaje;
     }
 
-    // se puede hacer un metodo asociar pasaje pero para achicar ser puede hacer en el setter de pasaje
+    // se puede hacer un metodo asociar pasaje pero para achicar ser puede hacer en
+    // el setter de pasaje
     // ya que los parametros que pasamos serian los mismos
 
-    public void setPasaje(Pasaje pasaje){
+    public void setPasaje(Pasaje pasaje) {
         this.pasaje = pasaje;
         pasaje.setReserva(this);
     }
@@ -123,7 +123,4 @@ public class Reserva {
         }
     }
 
-
-    
-    
 }

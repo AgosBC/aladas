@@ -2,10 +2,9 @@ package ar.com.ada.api.aladas.entities;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "staff")
-public class Staff extends Persona{
+public class Staff extends Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,15 +22,13 @@ public class Staff extends Persona{
         this.staffId = staffId;
     }
 
-    public Usuario getUsuario(){
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario){
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
         usuario.setStaff(this);
     }
-   
 
-    
 }

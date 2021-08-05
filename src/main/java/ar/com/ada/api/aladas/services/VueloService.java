@@ -11,7 +11,6 @@ import ar.com.ada.api.aladas.entities.Vuelo;
 import ar.com.ada.api.aladas.entities.Vuelo.EstadoVueloEnum;
 import ar.com.ada.api.aladas.repos.VueloRepository;
 
-
 @Service
 public class VueloService {
     @Autowired
@@ -20,21 +19,23 @@ public class VueloService {
     @Autowired
     private AeropuertoService aeroService;
 
-    public void crear (Vuelo vuelo){
+    public void crear(Vuelo vuelo) {
 
         repo.save(vuelo);
     }
 
-    public Vuelo crear(Date fecha, Integer capacidad, String aeropOrigenIATA, String aeropDestinoIATA, BigDecimal precio, String codigoMoneda){
+    public Vuelo crear(Date fecha, Integer capacidad, String aeropOrigenIATA, String aeropDestinoIATA,
+            BigDecimal precio, String codigoMoneda) {
         Vuelo vuelo = new Vuelo();
-        
 
         vuelo.setFecha(fecha);
         vuelo.setCapacidad(capacidad);
         vuelo.setEstadoVueloId(EstadoVueloEnum.GENERADO);
 
-        //buscar el aeropuerto por codigo iata, el set de la clase Vuelo, los aerop estan por codigo integer
-        // voy a necesitar llamar al service de aeropuerto para usar el findbyCodigoIATA, lo declaro arriba
+        // buscar el aeropuerto por codigo iata, el set de la clase Vuelo, los aerop
+        // estan por codigo integer
+        // voy a necesitar llamar al service de aeropuerto para usar el
+        // findbyCodigoIATA, lo declaro arriba
         Aeropuerto aeropuertoOrigen = aeroService.buscarPorCodigoIATA(aeropOrigenIATA);
 
         Aeropuerto aeropuertoDestino = aeroService.buscarPorCodigoIATA(aeropDestinoIATA);
@@ -46,8 +47,6 @@ public class VueloService {
 
         vuelo.setFecha(fecha);
         vuelo.setCodigoMoneda(codigoMoneda);
-
-        
 
         return repo.save(vuelo);
     }
@@ -63,24 +62,25 @@ public class VueloService {
         if (!validarCapacidad(vuelo))
             return ValidacionVueloDataEnum.ERROR_CAPACIDAD_MINIMA;
 
-        if (!validarOrigenNulo(vuelo)){
-            return ValidacionVueloDataEnum.ERROR_AEROPUERTO_ORIGEN;}
+        if (!validarOrigenNulo(vuelo)) {
+            return ValidacionVueloDataEnum.ERROR_AEROPUERTO_ORIGEN;
+        }
 
-        if (!validarDestinoNulo(vuelo)){
-            return ValidacionVueloDataEnum.ERROR_AEROPUERTO_DESTINO;}
+        if (!validarDestinoNulo(vuelo)) {
+            return ValidacionVueloDataEnum.ERROR_AEROPUERTO_DESTINO;
+        }
 
-       
         return ValidacionVueloDataEnum.OK;
-
 
     }
 
-    public boolean validarCapacidad(Vuelo vuelo){
+    public boolean validarCapacidad(Vuelo vuelo) {
 
-        if(vuelo.getCapacidad() <= 0){
+        if (vuelo.getCapacidad() <= 0) {
             return false;
-            
-        } return true;
+
+        }
+        return true;
     }
 
     public boolean validarPrecio(Vuelo vuelo) {
@@ -100,41 +100,41 @@ public class VueloService {
          * else return false;
          */
 
-        
         return vuelo.getAeropuertoDestino() != vuelo.getAeropuertoOrigen();
 
     }
-   
 
-    public boolean validarOrigenNulo(Vuelo vuelo){
+    public boolean validarOrigenNulo(Vuelo vuelo) {
 
         return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoOrigen());
     }
 
-    public boolean validarDestinoNulo(Vuelo vuelo){
+    public boolean validarDestinoNulo(Vuelo vuelo) {
 
         return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoDestino());
     }
 
-    /*public boolean validarDestinoNulo(Vuelo vuelo){
+    /*
+     * public boolean validarDestinoNulo(Vuelo vuelo){
+     * 
+     * Aeropuerto destino = aeroService.buscarPorId(vuelo.getAeropuertoDestino());
+     * 
+     * if (destino == null);
+     * 
+     * return true; // este metodo no funciona, entre otras cosas estaba realizando
+     * en el service de // vuelo algo que le compete a aeropuerto, como es la
+     * validacion de aeropuertos
+     * 
+     * }
+     */
 
-        Aeropuerto destino = aeroService.buscarPorId(vuelo.getAeropuertoDestino()); 
-        
-        if (destino == null);
-           
-        return true; // este metodo no funciona, entre otras cosas estaba realizando en el service de 
-        // vuelo algo que le compete a aeropuerto, como es la validacion de aeropuertos
-            
-    }*/
-
-    
     public Vuelo buscarPorId(Integer id) {
-        
-        return repo.findByVueloId(id);   
-           
+
+        return repo.findByVueloId(id);
+
     }
 
-    public void guardar (Vuelo vuelo){
+    public void guardar(Vuelo vuelo) {
         repo.save(vuelo);
     }
 
@@ -142,15 +142,11 @@ public class VueloService {
 
         return repo.findByEstadoVueloId(EstadoVueloEnum.ABIERTO.getValue());
 
-        
     }
-
-    
 
     public enum ValidacionVueloDataEnum {
         OK, ERROR_PRECIO, ERROR_AEROPUERTO_ORIGEN, ERROR_AEROPUERTO_DESTINO, ERROR_FECHA, ERROR_MONEDA,
         ERROR_CAPACIDAD_MINIMA, ERROR_CAPACIDAD_MAXIMA, ERROR_AEROPUERTOS_IGUALES, ERROR_GENERAL,
     }
- 
 
 }

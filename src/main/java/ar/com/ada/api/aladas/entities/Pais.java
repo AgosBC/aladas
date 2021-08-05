@@ -2,23 +2,23 @@ package ar.com.ada.api.aladas.entities;
 
 public class Pais {
 
-    public enum PaisEnum{
+    public enum PaisEnum {
         ARGENTINA(32), ESTADOS_UNIDOS(840), VENEZUELA(862), COLOMBIA(170);
 
         private final Integer value;
 
-        private PaisEnum(Integer value){ //constructr del enum debe estar en privado
+        private PaisEnum(Integer value) { // constructr del enum debe estar en privado
             this.value = value;
         }
 
-        public Integer getValue(){
+        public Integer getValue() {
             return value;
         }
 
-        public static PaisEnum parse(Integer id){
+        public static PaisEnum parse(Integer id) {
             PaisEnum status = null;
-            for (PaisEnum item : PaisEnum.values()){
-                if(item.getValue().equals(id)){
+            for (PaisEnum item : PaisEnum.values()) {
+                if (item.getValue().equals(id)) {
                     status = item;
                     break;
                 }
@@ -52,5 +52,5 @@ public class Pais {
             return status;
         }
     }
-    
+
 }

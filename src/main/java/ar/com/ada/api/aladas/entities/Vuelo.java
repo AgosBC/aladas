@@ -21,7 +21,7 @@ public class Vuelo {
     @Column(name = "estado_vuelo_id")
     private Integer estadoVueloId;
 
-    private Integer capacidad;  
+    private Integer capacidad;
 
     @Column(name = "aeropuerto_origen")
     private Integer aeropuertoOrigen;
@@ -34,12 +34,11 @@ public class Vuelo {
     @Column(name = "codigo_monera")
     private String codigoMoneda;
 
-    //lista de reservas mapeada
+    // lista de reservas mapeada
     @JsonIgnore
     @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reserva> reservas = new ArrayList<>();
 
-    
     public Integer getVueloId() {
         return vueloId;
     }
@@ -118,12 +117,11 @@ public class Vuelo {
         reserva.setVuelo(this);
     }
 
-
-    public enum EstadoVueloEnum { //esta diferente al de las demas OJO
-        GENERADO(1), PLANIFICADO(2), TRIPULACION_PREASIGNADA(3), ABIERTO(4), CONFIRMADO(5),
-        REPROGRAMADO(6), CANCELADO(7), CERRADO(8); // NO AGREGAMOS MAS ESTADOS PORQUE ESTE SISTEMA ESTA ENFOCADO AL
-                                                   // SISTEMA DE RESERVA, NO AL TRAFICO AEREO (NO ES NECESARIO PARA LA
-                                                   // VISION QUE ESTAMOS ARMANDO)
+    public enum EstadoVueloEnum { // esta diferente al de las demas OJO
+        GENERADO(1), PLANIFICADO(2), TRIPULACION_PREASIGNADA(3), ABIERTO(4), CONFIRMADO(5), REPROGRAMADO(6),
+        CANCELADO(7), CERRADO(8); // NO AGREGAMOS MAS ESTADOS PORQUE ESTE SISTEMA ESTA ENFOCADO AL
+                                  // SISTEMA DE RESERVA, NO AL TRAFICO AEREO (NO ES NECESARIO PARA LA
+                                  // VISION QUE ESTAMOS ARMANDO)
 
         private final Integer value;
 
@@ -147,6 +145,4 @@ public class Vuelo {
         }
     }
 
-
-    
 }

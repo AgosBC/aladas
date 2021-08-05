@@ -13,10 +13,8 @@ public class Aeropuerto {
     @Column(name = "nombre_aeropuerto")
     private String nombre;
 
-    
     @Column(name = "codigo_iata")
     private String codigoIATA;
-    
 
     public Integer getAeropuertoId() {
         return aeropuertoId;

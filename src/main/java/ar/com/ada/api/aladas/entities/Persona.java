@@ -64,6 +64,4 @@ public class Persona {
         this.paisId = paisId.getValue();
     }
 
-    
-    
 }

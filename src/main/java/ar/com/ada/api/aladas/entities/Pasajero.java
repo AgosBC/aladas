@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "pasajero")
-public class Pasajero extends Persona{
+public class Pasajero extends Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pasajero_id")
     private Integer pasajeroId;
 
-    //relacion con reserva
+    // relacion con reserva
     @OneToMany(mappedBy = "pasajero", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reserva> reservas = new ArrayList<>();
 
@@ -28,24 +28,19 @@ public class Pasajero extends Persona{
         this.pasajeroId = pasajeroId;
     }
 
-    //relacion bi-direccional con reserva
-    public void agregarReserva(Reserva reserva){
+    // relacion bi-direccional con reserva
+    public void agregarReserva(Reserva reserva) {
         this.reservas.add(reserva);
         reserva.setPasajero(this);
     }
 
-    public Usuario getUsuario(){
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario){
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
         usuario.setPasajero(this);
     }
 
-
-  
-
-    
-    
 }

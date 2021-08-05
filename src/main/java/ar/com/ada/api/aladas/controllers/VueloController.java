@@ -22,55 +22,48 @@ public class VueloController {
 
     @Autowired
     AeropuertoService aeroService;
-    
-    /*private VueloService service;
-    private AeropuertoService aeroService;
 
-    public VueloController(VueloService service, AeropuertoService aeroService) {
-        this.service = service;
-        this.aeroService = service;
-    } // otra manera de inyectar las dependencias*/
-
-   
+    /*
+     * private VueloService service; private AeropuertoService aeroService;
+     * 
+     * public VueloController(VueloService service, AeropuertoService aeroService) {
+     * this.service = service; this.aeroService = service; } // otra manera de
+     * inyectar las dependencias
+     */
 
     @PostMapping("/api/vuelos")
-    public ResponseEntity<GenericResponse> postCrearVuelo(@RequestBody Vuelo vuelo){
+    public ResponseEntity<GenericResponse> postCrearVuelo(@RequestBody Vuelo vuelo) {
 
         GenericResponse rta = new GenericResponse();
 
-        
-
         ValidacionVueloDataEnum resultadoValido = service.validar(vuelo);
-        
-        if( resultadoValido == ValidacionVueloDataEnum.OK){
+
+        if (resultadoValido == ValidacionVueloDataEnum.OK) {
 
             Aeropuerto ao = aeroService.buscarPorId(vuelo.getAeropuertoOrigen());
-                     
-            Aeropuerto ad = aeroService.buscarPorId(vuelo.getAeropuertoDestino());            
-            
-            
-           
-            Vuelo vueloNuevo = service.crear(vuelo.getFecha(), vuelo.getCapacidad(), ao.getCodigoIATA(), ad.getCodigoIATA(), vuelo.getPrecio(), vuelo.getCodigoMoneda());
+
+            Aeropuerto ad = aeroService.buscarPorId(vuelo.getAeropuertoDestino());
+
+            Vuelo vueloNuevo = service.crear(vuelo.getFecha(), vuelo.getCapacidad(), ao.getCodigoIATA(),
+                    ad.getCodigoIATA(), vuelo.getPrecio(), vuelo.getCodigoMoneda());
 
             rta.isOk = true;
             rta.id = vueloNuevo.getVueloId();
             rta.message = "El vuelo ha sido creado exitosamente";
 
             return ResponseEntity.ok(rta);
-           
-        } else{
+
+        } else {
             rta.isOk = false;
             rta.message = "ERROR (" + resultadoValido.toString() + ")";
 
             return ResponseEntity.badRequest().body(rta);
         }
 
-
-        
     }
 
     @PostMapping("/api/vuelos/v2")
-    public ResponseEntity<GenericResponse> CrearVuelo(@RequestBody Vuelo vuelo){
+    public ResponseEntity<GenericResponse> CrearVuelo(@RequestBody Vuelo vuelo) {
 
         GenericResponse rta = new GenericResponse();
 
@@ -78,25 +71,24 @@ public class VueloController {
 
         return ResponseEntity.ok(rta);
 
-
-        
     }
-    
+
     @PutMapping("api/vuelos/{id}/estados")
-    public ResponseEntity<GenericResponse> putActualizarEstadoVuelo(@PathVariable Integer id, @RequestBody EstVueloRequest estadoVuelo){
+    public ResponseEntity<GenericResponse> putActualizarEstadoVuelo(@PathVariable Integer id,
+            @RequestBody EstVueloRequest estadoVuelo) {
 
-    GenericResponse r = new GenericResponse();
+        GenericResponse r = new GenericResponse();
 
-    Vuelo vuelo = service.buscarPorId(id);
+        Vuelo vuelo = service.buscarPorId(id);
 
-    vuelo.setEstadoVueloId(estadoVuelo.estado);
+        vuelo.setEstadoVueloId(estadoVuelo.estado);
 
-    service.guardar(vuelo);
+        service.guardar(vuelo);
 
-    r.isOk = true;
-    r.message = "Vuelo actualizado";
+        r.isOk = true;
+        r.message = "Vuelo actualizado";
 
-    return ResponseEntity.ok(r);
+        return ResponseEntity.ok(r);
     }
 
     @GetMapping("/api/vuelos/abiertos")
@@ -104,6 +96,4 @@ public class VueloController {
         return ResponseEntity.ok(service.traerVuelosAbiertos());
     }
 
-
-    
 }

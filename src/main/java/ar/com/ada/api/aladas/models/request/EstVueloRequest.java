@@ -6,10 +6,4 @@ public class EstVueloRequest {
 
     public EstadoVueloEnum estado;
 
-    
-
-    /* controller (Est Vuelonuevo) service.actualizarEstado (id, estVueloNuevo) 
-    service {(int id, estVueloNuevo estVueloNuevo)} vuelo vuelo = this.buscar(id)
-    
-    vuelo.setTipoEstadovuelo --> esto es int por lo que deberia ver como lo paso a enum? */
 }

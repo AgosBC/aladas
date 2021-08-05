@@ -26,12 +26,12 @@ public class Usuario {
     private String username;
 
     private String password;
-    
+
     private String email;
 
     @Column(name = "fecha_login")
     private Date fechaLogin;
-    
+
     @Column(name = "tipo_usuario_id")
     private Integer tipoUsuario;
 
@@ -132,5 +132,5 @@ public class Usuario {
             return status;
         }
     }
-    
+
 }
