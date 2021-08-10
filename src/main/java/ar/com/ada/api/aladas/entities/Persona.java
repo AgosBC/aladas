@@ -17,9 +17,9 @@ public class Persona {
 
     private String documento;
 
-    @Column(name = "fecha_nacimento")
+    @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
-    private Date fechaNacimento;
+    private Date fechaNacimiento;
 
     @Column(name = "pais_id")
     private Integer paisId;
@@ -48,12 +48,14 @@ public class Persona {
         this.documento = documento;
     }
 
-    public Date getFechaNacimento() {
-        return fechaNacimento;
+      
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setFechaNacimento(Date fechaNacimento) {
-        this.fechaNacimento = fechaNacimento;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public PaisEnum getPaisId() {
