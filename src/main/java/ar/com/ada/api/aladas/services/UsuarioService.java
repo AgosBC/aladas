@@ -53,7 +53,7 @@ public class UsuarioService {
     Usuario usuario = new Usuario();
     usuario.setUsername(email);
     usuario.setEmail(email);
-    usuario.setPassword(Crypto.encrypt(password, email.toLowerCase()));
+    usuario.setPassword(Crypto.hash(password, email.toLowerCase()));
     usuario.setTipoUsuario(tipoUsuario);
 
   switch(tipoUsuario){
@@ -134,5 +134,4 @@ public class UsuarioService {
     return authorities;
   }
 
-    
 }
