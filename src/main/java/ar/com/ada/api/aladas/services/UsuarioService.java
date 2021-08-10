@@ -56,9 +56,9 @@ public class UsuarioService {
     usuario.setPassword(Crypto.encrypt(password, email.toLowerCase()));
     usuario.setTipoUsuario(tipoUsuario);
 
-    if (tipoUsuario == TipoUsuarioEnum.PASAJERO) {
-      Pasajero pasajero = new Pasajero();
-
+  switch(tipoUsuario){
+    case PASAJERO:
+     Pasajero pasajero = new Pasajero();
       pasajero.setDocumento(documento);
       pasajero.setPaisId(PaisEnum.parse(pais));
       pasajero.setFechaNacimiento(fechaNacimiento);
@@ -67,8 +67,9 @@ public class UsuarioService {
       pasajero.setUsuario(usuario);
 
       pasajeroService.crearPasajero(pasajero);
+       break;
 
-    } else { // en este caso, asumios que si no es pasajero es staff
+    case STAFF:
       Staff staff = new Staff();
       staff.setDocumento(documento);
       staff.setPaisId(PaisEnum.parse(pais));
@@ -78,9 +79,11 @@ public class UsuarioService {
       staff.setUsuario(usuario);
 
       staffService.crearStaff(staff);
-    }
 
-    return usuario;
+      break;
+  }
+  
+      return usuario;
   }
 
   public Usuario buscarPorEmail(String email) {

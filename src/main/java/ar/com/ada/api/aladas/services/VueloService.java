@@ -76,7 +76,7 @@ public class VueloService {
 
     public boolean validarCapacidad(Vuelo vuelo) {
 
-        if (vuelo.getCapacidad() <= 0) {
+        if (vuelo.getCapacidad().intValue() <= 0) {
             return false;
 
         }
@@ -85,7 +85,7 @@ public class VueloService {
 
     public boolean validarPrecio(Vuelo vuelo) {
 
-        if (vuelo.getPrecio() == null) {
+        if (vuelo.getPrecio().equals(null)) {
             return false;
         }
         if (vuelo.getPrecio().doubleValue() > 0)
@@ -114,19 +114,6 @@ public class VueloService {
         return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoDestino());
     }
 
-    /*
-     * public boolean validarDestinoNulo(Vuelo vuelo){
-     * 
-     * Aeropuerto destino = aeroService.buscarPorId(vuelo.getAeropuertoDestino());
-     * 
-     * if (destino == null);
-     * 
-     * return true; // este metodo no funciona, entre otras cosas estaba realizando
-     * en el service de // vuelo algo que le compete a aeropuerto, como es la
-     * validacion de aeropuertos
-     * 
-     * }
-     */
 
     public Vuelo buscarPorId(Integer id) {
 
