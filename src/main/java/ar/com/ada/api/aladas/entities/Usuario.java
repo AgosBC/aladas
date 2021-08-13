@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.internal.util.type.PrimitiveWrapperHelper.IntegerDescriptor;
 
 @Entity
 @Table(name = "usuario")
