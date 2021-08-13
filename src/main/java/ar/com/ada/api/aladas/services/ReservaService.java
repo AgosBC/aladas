@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import ar.com.ada.api.aladas.entities.Pasaje;
 import ar.com.ada.api.aladas.entities.Pasajero;
@@ -20,6 +21,7 @@ public class ReservaService {
     @Autowired
     VueloService vueloService;
 
+    @PostMapping("/api/reservas")
     public Reserva generarReserva(Integer vueloId, Pasajero pasajero){
 
         Reserva reserva = new Reserva();
