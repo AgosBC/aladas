@@ -22,6 +22,7 @@ public class ReservaController {
     @Autowired
     UsuarioService usuarioService;
 
+    @PostMapping("/api/reservas")
     public ResponseEntity<ReservaResponse> generarReserva(@RequestBody InfoReservaNueva infoReserva){
 
         ReservaResponse rta = new ReservaResponse();

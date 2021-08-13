@@ -21,7 +21,7 @@ public class ReservaService {
     @Autowired
     VueloService vueloService;
 
-    @PostMapping("/api/reservas")
+    
     public Reserva generarReserva(Integer vueloId, Pasajero pasajero){
 
         Reserva reserva = new Reserva();
