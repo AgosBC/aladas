@@ -21,6 +21,10 @@ public class Reserva {
     @JoinColumn(name = "pasajero_id", referencedColumnName = "pasajero_id")
     private Pasajero pasajero;
 
+    @ManyToOne
+    @JoinColumn(name = "staff_id", referencedColumnName = "staff_id")
+    private Staff staff;
+
     @Column(name = "estado_reserva_id")
     private Integer estadoReservaId;
 
@@ -75,6 +79,15 @@ public class Reserva {
         this.pasajero = pasajero;
     }
 
+    
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
     public EstadoReservaEnum getEstadoReservaId() {
         return EstadoReservaEnum.parse(estadoReservaId);
     }
@@ -96,6 +109,7 @@ public class Reserva {
         pasaje.setReserva(this);
     }
 
+    
     public enum EstadoReservaEnum {
 
         CREADA(1), TRANSMITIENDO_AL_PG(2), ERROR_AL_CONECTAR_PG(3), PENDIENTE_DE_PAGO(4), PAGADA(5),

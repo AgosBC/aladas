@@ -36,7 +36,7 @@ public class ReservaController {
         Usuario usuario = usuarioService.buscarPorUsername(username);
 
         //con el usuario obtengo el pasajero
-        Reserva reservaNueva = service.generarReserva(infoReserva.vueloId, usuario.getPasajero());
+        Reserva reservaNueva = service.generarReserva(infoReserva.vueloId, usuario);
 
         rta.fechaEmision = reservaNueva.getFechaEmision();
         rta.reservaId = reservaNueva.getReservaId();

@@ -28,6 +28,7 @@ public class Pasajero extends Persona {
         this.pasajeroId = pasajeroId;
     }
 
+    
     // relacion bi-direccional con reserva
     public void agregarReserva(Reserva reserva) {
         this.reservas.add(reserva);
