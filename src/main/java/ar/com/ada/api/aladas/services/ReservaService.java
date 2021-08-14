@@ -21,7 +21,7 @@ public class ReservaService {
     @Autowired
     VueloService vueloService;
 
-    
+    //validaciones 1. que sea un vuelo abierto
     public Reserva generarReserva(Integer vueloId, Usuario usuario){
 
         Reserva reserva = new Reserva();
@@ -61,8 +61,17 @@ public class ReservaService {
         return reserva;
 
     }
+
+    public Reserva buscarPorId(Integer id) {
+        return repo.findByReservaId(id);
+    }
+
     
-   /* public Reserva generarReserva(Integer vueloId, Staff staff){
+
+
+    
+   /* metodo solo para generar pasajes para pasajeros (sin staff)
+        public Reserva generarReserva(Integer vueloId, Pasajero pasajero){
 
         Reserva reserva = new Reserva();
 
@@ -81,7 +90,7 @@ public class ReservaService {
         reserva.setEstadoReservaId(EstadoReservaEnum.CREADA);
 
         //relaciones Bidireccionales
-        staff.agregarReserva(reserva);
+        pasajero.agregarReserva(reserva);
         vuelo.agregarReserva(reserva);
 
         repo.save(reserva);
@@ -89,8 +98,8 @@ public class ReservaService {
 
     }*/
 
-    public Reserva buscarPorId(Integer id) {
-       return repo.findByReservaId(id);
-    }
+    
+
+    
     
 }

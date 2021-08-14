@@ -102,4 +102,25 @@ class AladasApplicationTests {
 
 
 
+	@Test
+	void validadVueloAbierto(){
+
+		Vuelo vuelo = new Vuelo();
+		vuelo.setPrecio(new BigDecimal(1000));
+		vuelo.setEstadoVueloId(EstadoVueloEnum.ABIERTO);
+		vuelo.setAeropuertoOrigen(116);
+		vuelo.setAeropuertoDestino(120);
+
+		assertEquals(true, vueloService.validarVuelosAbiertos(vuelo));
+
+		
+
+	}
+
+
+
+
+
+
+
 }

@@ -108,11 +108,23 @@ public class VueloService {
 
         return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoOrigen());
     }
-
+    
     public boolean validarDestinoNulo(Vuelo vuelo) {
 
         return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoDestino());
     }
+
+    public boolean validarVuelosAbiertos(Vuelo vuelo){
+
+    
+        return vuelo.getEstadoVueloId().getValue().equals(4);
+
+        // si el estado del vuelo es abierto
+        //return vuelo.getEstadoVueloId().equals(ABIERTO);
+       
+    }
+
+       
 
 
     public Vuelo buscarPorId(Integer id) {
@@ -133,7 +145,7 @@ public class VueloService {
 
     public enum ValidacionVueloDataEnum {
         OK, ERROR_PRECIO, ERROR_AEROPUERTO_ORIGEN, ERROR_AEROPUERTO_DESTINO, ERROR_FECHA, ERROR_MONEDA,
-        ERROR_CAPACIDAD_MINIMA, ERROR_CAPACIDAD_MAXIMA, ERROR_AEROPUERTOS_IGUALES, ERROR_GENERAL,
+        ERROR_CAPACIDAD_MINIMA, ERROR_CAPACIDAD_MAXIMA, ERROR_AEROPUERTOS_IGUALES, ERROR_GENERAL, VUELO_INVALIDO,
     }
 
 }
