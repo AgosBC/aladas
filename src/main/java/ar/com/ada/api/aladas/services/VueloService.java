@@ -117,10 +117,9 @@ public class VueloService {
     public boolean validarVuelosAbiertos(Vuelo vuelo){
 
     
-        return vuelo.getEstadoVueloId().getValue().equals(4);
-
+        //return vuelo.getEstadoVueloId().getValue().equals(4);
         // si el estado del vuelo es abierto
-        //return vuelo.getEstadoVueloId().equals(ABIERTO);
+        return vuelo.getEstadoVueloId().equals(EstadoVueloEnum.ABIERTO);
        
     }
 
@@ -145,7 +144,7 @@ public class VueloService {
 
     public enum ValidacionVueloDataEnum {
         OK, ERROR_PRECIO, ERROR_AEROPUERTO_ORIGEN, ERROR_AEROPUERTO_DESTINO, ERROR_FECHA, ERROR_MONEDA,
-        ERROR_CAPACIDAD_MINIMA, ERROR_CAPACIDAD_MAXIMA, ERROR_AEROPUERTOS_IGUALES, ERROR_GENERAL, VUELO_INVALIDO,
+        ERROR_CAPACIDAD_MINIMA, ERROR_CAPACIDAD_MAXIMA, ERROR_AEROPUERTOS_IGUALES, ERROR_GENERAL,
     }
 
 }
