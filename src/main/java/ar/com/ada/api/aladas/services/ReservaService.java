@@ -22,7 +22,7 @@ public class ReservaService {
     VueloService vueloService;
 
     //validaciones 1. que sea un vuelo abierto
-    public Reserva generarReserva(Integer vueloId, Usuario usuario){
+    /*public Reserva generarReserva(Integer vueloId, Usuario usuario){
 
         Reserva reserva = new Reserva();
 
@@ -60,11 +60,51 @@ public class ReservaService {
         repo.save(reserva);
         return reserva;
 
-    }
+    }*/
+
+       public Reserva generarReservaV2(Vuelo vuelo, Usuario usuario){
+
+        Reserva reserva = new Reserva();
+
+         reserva.setFechaEmision(new Date());
+
+        //crear fecha de vencimiento en 24hs usando el metodo de calendario
+
+        Calendar c = Calendar.getInstance();//declaro la variable c tipo Calendar
+        c.setTime(reserva.getFechaEmision());//seto a c una fecha de inicio (en este caso la fecha de emision)
+        c.add(Calendar.DATE, 1); // agrego a c un field y amount(cantiadad de dias a aumentar)
+         
+        reserva.setFechaVencimiento(c.getTime()); // seteo esa fecha que me dio el ultimo paso
+
+        reserva.setEstadoReservaId(EstadoReservaEnum.CREADA);
+
+        
+
+        //relaciones Bidireccionales
+        switch(usuario.getTipoUsuario()){
+            case PASAJERO:
+            usuario.getPasajero().agregarReserva(reserva);
+            break;
+
+            case STAFF:
+            usuario.getStaff().agregarReserva(reserva);
+            break;
+
+
+        }
+
+        vuelo.agregarReserva(reserva);
+
+        repo.save(reserva);
+        return reserva;
+
+    } 
 
     public Reserva buscarPorId(Integer id) {
         return repo.findByReservaId(id);
     }
+
+    
 
     
 
