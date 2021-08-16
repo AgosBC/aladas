@@ -11,6 +11,7 @@ import ar.com.ada.api.aladas.entities.Vuelo;
 import ar.com.ada.api.aladas.entities.Vuelo.EstadoVueloEnum;
 import ar.com.ada.api.aladas.repos.VueloRepository;
 
+
 @Service
 public class VueloService {
     @Autowired
@@ -123,7 +124,28 @@ public class VueloService {
        
     }
 
+    //public boolean validarVueloExiste(Vuelo vuelo){
        
+        //return this.buscarPorId(vuelo.getVueloId()).equals(null);
+
+        /** Vuelo verificar = repo.findByVueloId(vuelo.getVueloId());
+        return verificar.equals(null); */
+            
+        
+
+    //}
+
+    public ValidacionVueloDataEnum validarVueloReserva(Vuelo vuelo){
+        
+       /* if (!validarVueloExiste(vuelo)){
+            return ValidacionVueloDataEnum.VUELO_INVALIDO;
+        }*/
+        if (!validarVuelosAbiertos(vuelo)){
+            return ValidacionVueloDataEnum.VUELO_INVALIDO;
+        }
+        
+        return ValidacionVueloDataEnum.OK;
+    }
 
 
     public Vuelo buscarPorId(Integer id) {
@@ -142,9 +164,13 @@ public class VueloService {
 
     }
 
+    
+
     public enum ValidacionVueloDataEnum {
         OK, ERROR_PRECIO, ERROR_AEROPUERTO_ORIGEN, ERROR_AEROPUERTO_DESTINO, ERROR_FECHA, ERROR_MONEDA,
         ERROR_CAPACIDAD_MINIMA, ERROR_CAPACIDAD_MAXIMA, ERROR_AEROPUERTOS_IGUALES, ERROR_GENERAL, VUELO_INVALIDO,
     }
+
+    
 
 }

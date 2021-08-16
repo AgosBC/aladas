@@ -63,9 +63,9 @@ public class ReservaController {
 
         Vuelo vuelo = vueloService.buscarPorId(infoReserva.vueloId);
 
-        //ValidacionVueloDataEnum vueloValido = vueloService.validarVuelosAbiertos(vuelo);
+        ValidacionVueloDataEnum vueloValido = vueloService.validarVueloReserva(vuelo);
 
-        if(vueloService.validarVuelosAbiertos(vuelo)){
+        if(vueloValido == ValidacionVueloDataEnum.OK){
 
              // obtengo a quien esta autenticado del otro lado 
 
@@ -76,7 +76,6 @@ public class ReservaController {
              Usuario usuario = usuarioService.buscarPorUsername(username);
 
         
-
              //con el usuario obtengo el pasajero
              Reserva reservaNueva = service.generarReservaV2(vuelo, usuario);
 
@@ -88,7 +87,7 @@ public class ReservaController {
 
             return ResponseEntity.ok(rta);
         } else {
-            rta.message = "ERROR (" + ValidacionVueloDataEnum.VUELO_INVALIDO.toString() + ")";
+            rta.message = "ERROR (" + vueloValido.toString() + ")";
 
             return ResponseEntity.badRequest().body(rta);
         }

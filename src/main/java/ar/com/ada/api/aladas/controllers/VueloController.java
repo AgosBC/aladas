@@ -6,11 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import ar.com.ada.api.aladas.entities.Aeropuerto;
+import ar.com.ada.api.aladas.entities.Staff;
+import ar.com.ada.api.aladas.entities.Usuario;
 import ar.com.ada.api.aladas.entities.Vuelo;
+import ar.com.ada.api.aladas.entities.Usuario.TipoUsuarioEnum;
 import ar.com.ada.api.aladas.models.request.EstVueloRequest;
 import ar.com.ada.api.aladas.models.response.GenericResponse;
 import ar.com.ada.api.aladas.services.AeropuertoService;
+import ar.com.ada.api.aladas.services.UsuarioService;
 import ar.com.ada.api.aladas.services.VueloService;
 import ar.com.ada.api.aladas.services.VueloService.ValidacionVueloDataEnum;
 
@@ -22,6 +30,9 @@ public class VueloController {
 
     @Autowired
     AeropuertoService aeroService;
+
+    @Autowired
+    UsuarioService usuarioService;
 
     /*
      * private VueloService service; private AeropuertoService aeroService;
@@ -94,6 +105,30 @@ public class VueloController {
     @GetMapping("/api/vuelos/abiertos")
     public ResponseEntity<List<Vuelo>> getVuelosAbiertos() {
         return ResponseEntity.ok(service.traerVuelosAbiertos());
+    }
+
+    @GetMapping("api/vuelos/{id}")
+    public ResponseEntity<Vuelo> getVuelo(@PathVariable Integer id){
+
+        Vuelo vuelo = service.buscarPorId(id);
+        return ResponseEntity.ok(vuelo);
+    }
+
+    @GetMapping("api/vuelos/{id}/estado")
+    public ResponseEntity<?> getEstadoVuelo(@PathVariable Integer id){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();      
+            
+        String username = authentication.getName();
+             
+        Usuario usuario = usuarioService.buscarPorUsername(username);
+
+        if (usuario.getTipoUsuario() == TipoUsuarioEnum.STAFF){
+
+        Vuelo vuelo = service.buscarPorId(id);
+        return ResponseEntity.ok(vuelo.getEstadoVueloId());
+        } else 
+        return ResponseEntity.badRequest().body("usuario no autorizado");
     }
 
 }
