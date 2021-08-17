@@ -22,12 +22,6 @@ public class PasajeController {
         
         Pasaje pasaje = service.emitir(pasajeNuevo.reservaId);
 
-        /*
-        if(pasaje.equals(null)){
-            respuesta.message = "numero de reserva no encontrado";
-            return ResponseEntity.badRequest().body(respuesta);
-        }*/
-
         respuesta.id = pasaje.getPasajeId();
         respuesta.isOk = true;
         respuesta.message = "su pasaje ha sido creado con exito";

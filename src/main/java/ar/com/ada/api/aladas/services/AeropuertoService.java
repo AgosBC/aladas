@@ -47,9 +47,10 @@ public class AeropuertoService {
         if (!this.validarCodigoIATA(aeropuerto))
             return ValidacionAeropuertoDataEnum.ERROR_CODIGO_IATA;
 
-        if (this.verificarAeropuertoExiste(aeropuerto.getAeropuertoId()))
+        if (this.existeId(aeropuerto.getAeropuertoId()))
             return ValidacionAeropuertoDataEnum.ERROR_AEROPUERTO_EXISTENTE;
 
+       
         return ValidacionAeropuertoDataEnum.OK;
     }
 
@@ -70,12 +71,16 @@ public class AeropuertoService {
         return true;
     }
 
+    public boolean existeId(Integer id){
+        return repo.existsById(id);
+    }
+
     public boolean verificarAeropuertoExiste(Integer id) {
         if (this.buscarPorId(id) == null) {
             return false;
         } else
             return true;
-    }
+    } // el metodo .exist (arriba) es mas directo
 
     public enum ValidacionAeropuertoDataEnum {
         OK, ERROR_CODIGO_IATA, ERROR_AEROPUERTO_EXISTENTE, ERROR_GENERAL,

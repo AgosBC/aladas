@@ -11,7 +11,6 @@ import ar.com.ada.api.aladas.entities.Vuelo;
 import ar.com.ada.api.aladas.entities.Vuelo.EstadoVueloEnum;
 import ar.com.ada.api.aladas.repos.VueloRepository;
 
-
 @Service
 public class VueloService {
     @Autowired
@@ -101,7 +100,9 @@ public class VueloService {
          * else return false;
          */
 
-        return vuelo.getAeropuertoDestino().intValue() != vuelo.getAeropuertoOrigen().intValue(); // mmodificar a equals o agregar el .intValue()
+        return vuelo.getAeropuertoDestino().intValue() != vuelo.getAeropuertoOrigen().intValue(); // mmodificar a equals
+                                                                                                  // o agregar el
+                                                                                                  // .intValue()
 
     }
 
@@ -109,44 +110,35 @@ public class VueloService {
 
         return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoOrigen());
     }
-    
+
     public boolean validarDestinoNulo(Vuelo vuelo) {
 
         return aeroService.verificarAeropuertoExiste(vuelo.getAeropuertoDestino());
     }
 
-    public boolean validarVuelosAbiertos(Vuelo vuelo){
-
-    
-        //return vuelo.getEstadoVueloId().getValue().equals(4);
-        // si el estado del vuelo es abierto
+    public boolean validarVuelosAbiertos(Vuelo vuelo) {
+      
         return vuelo.getEstadoVueloId().equals(EstadoVueloEnum.ABIERTO);
-       
+
     }
 
-    //public boolean validarVueloExiste(Vuelo vuelo){
-       
-        //return this.buscarPorId(vuelo.getVueloId()).equals(null);
+    public boolean validarVueloExiste(Vuelo vuelo) {
 
-        /** Vuelo verificar = repo.findByVueloId(vuelo.getVueloId());
-        return verificar.equals(null); */
-            
-        
+        return repo.existsById(vuelo.getVueloId());
 
-    //}
+    }
 
-    public ValidacionVueloDataEnum validarVueloReserva(Vuelo vuelo){
-        
-       /* if (!validarVueloExiste(vuelo)){
-            return ValidacionVueloDataEnum.VUELO_INVALIDO;
-        }*/
-        if (!validarVuelosAbiertos(vuelo)){
+    public ValidacionVueloDataEnum validarVueloReserva(Vuelo vuelo) {
+
+        if (!validarVueloExiste(vuelo)) {
             return ValidacionVueloDataEnum.VUELO_INVALIDO;
         }
-        
+        if (!validarVuelosAbiertos(vuelo)) {
+            return ValidacionVueloDataEnum.VUELO_INVALIDO;
+        }
+
         return ValidacionVueloDataEnum.OK;
     }
-
 
     public Vuelo buscarPorId(Integer id) {
 
@@ -164,13 +156,9 @@ public class VueloService {
 
     }
 
-    
-
     public enum ValidacionVueloDataEnum {
         OK, ERROR_PRECIO, ERROR_AEROPUERTO_ORIGEN, ERROR_AEROPUERTO_DESTINO, ERROR_FECHA, ERROR_MONEDA,
         ERROR_CAPACIDAD_MINIMA, ERROR_CAPACIDAD_MAXIMA, ERROR_AEROPUERTOS_IGUALES, ERROR_GENERAL, VUELO_INVALIDO,
     }
-
-    
 
 }
