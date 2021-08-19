@@ -3,9 +3,10 @@ package ar.com.ada.api.aladas.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -108,27 +109,42 @@ public class VueloController {
     }
 
     @GetMapping("api/vuelos/{id}")
-    public ResponseEntity<Vuelo> getVuelo(@PathVariable Integer id){
+    public ResponseEntity<Vuelo> getVuelo(@PathVariable Integer id) {
 
         Vuelo vuelo = service.buscarPorId(id);
         return ResponseEntity.ok(vuelo);
     }
-
+    
     @GetMapping("api/vuelos/{id}/estado")
-    public ResponseEntity<?> getEstadoVuelo(@PathVariable Integer id){
+    public ResponseEntity<?> getEstadoVuelo(@PathVariable Integer id) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();      
-            
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         String username = authentication.getName();
-             
+
         Usuario usuario = usuarioService.buscarPorUsername(username);
 
-        if (usuario.getTipoUsuario() == TipoUsuarioEnum.STAFF){
+        if (usuario.getTipoUsuario() == TipoUsuarioEnum.STAFF) {
 
-        Vuelo vuelo = service.buscarPorId(id);
-        return ResponseEntity.ok(vuelo.getEstadoVueloId());
-        } else 
-        return ResponseEntity.badRequest().body("usuario no autorizado");
+            Vuelo vuelo = service.buscarPorId(id);
+            return ResponseEntity.ok(vuelo.getEstadoVueloId());
+        } else
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            //return ResponseEntity.status(HttpStatus.NOT_FOUND).build();// mejorcito, para no andar avisando a los hackers que hay algo importante detras
+            
     }
+
+    @GetMapping("api/vuelos/{id}/estadov2")
+    @PreAuthorize("hasAuthority('CLAIM_userType_STAFF')")//spring expression language
+    public ResponseEntity<?> getEstadoVueloV2(@PathVariable Integer id) {
+
+        
+
+            Vuelo vuelo = service.buscarPorId(id);
+            return ResponseEntity.ok(vuelo.getEstadoVueloId());
+       
+    }
+    
+
 
 }
