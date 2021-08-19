@@ -17,6 +17,7 @@ import ar.com.ada.api.aladas.entities.Pais.TipoDocuEnum;
 import ar.com.ada.api.aladas.entities.Usuario.TipoUsuarioEnum;
 import ar.com.ada.api.aladas.repos.UsuarioRepository;
 import ar.com.ada.api.aladas.security.Crypto;
+import ar.com.ada.api.aladas.sistema.com.EmailService;
 
 @Service
 public class UsuarioService {
@@ -27,6 +28,8 @@ public class UsuarioService {
   StaffService staffService;
   @Autowired
   UsuarioRepository usuarioRepository;
+  @Autowired
+  EmailService emailService;
 
   public Usuario buscarPorUsername(String username) {
     return usuarioRepository.findByUsername(username);
@@ -49,41 +52,43 @@ public class UsuarioService {
   }
 
   public Usuario crearUsuario(TipoUsuarioEnum tipoUsuario, String nombre, int pais, Date fechaNacimiento,
-  TipoDocuEnum tipoDocumento, String documento, String email, String password) {
+      TipoDocuEnum tipoDocumento, String documento, String email, String password) {
     Usuario usuario = new Usuario();
     usuario.setUsername(email);
     usuario.setEmail(email);
     usuario.setPassword(Crypto.encrypt(password, email.toLowerCase()));
     usuario.setTipoUsuario(tipoUsuario);
 
-  switch(tipoUsuario){
-    case PASAJERO:
-     Pasajero pasajero = new Pasajero();
-      pasajero.setDocumento(documento);
-      pasajero.setPaisId(PaisEnum.parse(pais));
-      pasajero.setFechaNacimiento(fechaNacimiento);
-      pasajero.setNombre(nombre);
-      pasajero.setTipoDocumentoId(tipoDocumento);
-      pasajero.setUsuario(usuario);
+    switch (tipoUsuario) {
+      case PASAJERO:
+        Pasajero pasajero = new Pasajero();
+        pasajero.setDocumento(documento);
+        pasajero.setPaisId(PaisEnum.parse(pais));
+        pasajero.setFechaNacimiento(fechaNacimiento);
+        pasajero.setNombre(nombre);
+        pasajero.setTipoDocumentoId(tipoDocumento);
+        pasajero.setUsuario(usuario);
 
-      pasajeroService.crearPasajero(pasajero);
-       break;
+        pasajeroService.crearPasajero(pasajero);
+        break;
 
-    case STAFF:
-      Staff staff = new Staff();
-      staff.setDocumento(documento);
-      staff.setPaisId(PaisEnum.parse(pais));
-      staff.setFechaNacimiento(fechaNacimiento);
-      staff.setNombre(nombre);
-      staff.setTipoDocumentoId(tipoDocumento);
-      staff.setUsuario(usuario);
+      case STAFF:
+        Staff staff = new Staff();
+        staff.setDocumento(documento);
+        staff.setPaisId(PaisEnum.parse(pais));
+        staff.setFechaNacimiento(fechaNacimiento);
+        staff.setNombre(nombre);
+        staff.setTipoDocumentoId(tipoDocumento);
+        staff.setUsuario(usuario);
 
-      staffService.crearStaff(staff);
+        staffService.crearStaff(staff);
 
-      break;
-  }
-  
-      return usuario;
+        break;
+    }
+
+    emailService.SendEmail(usuario.getEmail(), "Registración exitosa", "Bienvenido a Aladas");
+
+    return usuario;
   }
 
   public Usuario buscarPorEmail(String email) {

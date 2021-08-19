@@ -109,7 +109,9 @@ public class VueloController {
     }
 
     @GetMapping("api/vuelos/{id}")
+    @PreAuthorize("hasAuthority('CLAIM_userType_STAFF')")//spring expression language
     public ResponseEntity<Vuelo> getVuelo(@PathVariable Integer id) {
+        
 
         Vuelo vuelo = service.buscarPorId(id);
         return ResponseEntity.ok(vuelo);
@@ -131,7 +133,9 @@ public class VueloController {
         } else
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             //return ResponseEntity.status(HttpStatus.NOT_FOUND).build();// mejorcito, para no andar avisando a los hackers que hay algo importante detras
-            
+            //otras opciones
+            //return ResponseEntity.status(403).build();
+            //return ResponseEntuty.(403).body("FORBIDDEN").build();
     }
 
     @GetMapping("api/vuelos/{id}/estadov2")

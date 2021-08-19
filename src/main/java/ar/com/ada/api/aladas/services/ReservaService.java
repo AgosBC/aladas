@@ -13,6 +13,7 @@ import ar.com.ada.api.aladas.entities.Usuario;
 import ar.com.ada.api.aladas.entities.Vuelo;
 import ar.com.ada.api.aladas.entities.Reserva.EstadoReservaEnum;
 import ar.com.ada.api.aladas.repos.ReservaRepository;
+import ar.com.ada.api.aladas.sistema.com.EmailService;
 
 @Service
 public class ReservaService {
@@ -20,6 +21,8 @@ public class ReservaService {
     ReservaRepository repo;
     @Autowired
     VueloService vueloService;
+    @Autowired
+    EmailService emailService;
 
     //validaciones 1. que sea un vuelo abierto
     /*public Reserva generarReserva(Integer vueloId, Usuario usuario){
@@ -96,6 +99,7 @@ public class ReservaService {
         vuelo.agregarReserva(reserva);
 
         repo.save(reserva);
+        emailService.SendEmail(usuario.getEmail(), "Reserva Realizada", "Se realizo su reserva con exito. La fecha de vencimiento es: " + reserva.getFechaVencimiento());
         return reserva;
 
     } 
