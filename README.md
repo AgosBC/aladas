@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="https://github.com/AgosBC/aladas/blob/main/Aladas.png" width="200" title="hover text">
- </p>
- 
+  <img src="https://github.com/AgosBC/aladas/blob/main/img/Aladas.png" width="200" title="hover text">
+ </p> 
 <h1 align="center">Aladas</h1>
 
 Aladas es una API Rest que permite la venta de pasajes aereos. 
@@ -12,5 +11,14 @@ Entre sus funcionalidades se encuentran: registrar y cargar usuarios. Los usuari
 ## Tecnologias utilizadas:
 -Java 
 -SpringBoot 
+
+## Esquema de la Base de Datos:
+
+<p align="center">
+  <img src="https://github.com/AgosBC/aladas/blob/main/img/DataBaseSchema.png" width="1000" title="hover text">
+ </p> 
+
+
+
 
 
