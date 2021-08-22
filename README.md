@@ -9,10 +9,16 @@ Entre sus funcionalidades se encuentran: registrar y cargar usuarios. Los usuari
 
 
 ## Tecnologias utilizadas:
+
+#### Backend:
 -Java 
 -SpringBoot 
 
+#### Deployment:
+Heroku
+
 ## Esquema de la Base de Datos:
+### MySQL
 
 <p align="center">
   <img src="https://github.com/AgosBC/aladas/blob/main/img/DataBaseSchema.png" width="1000" title="hover text">
