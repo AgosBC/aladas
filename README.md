@@ -11,11 +11,11 @@ Entre sus funcionalidades se encuentran: registrar y cargar usuarios. Los usuari
 ## Tecnologias utilizadas:
 
 #### Backend:
--Java 
--SpringBoot 
+- Java 
+- SpringBoot 
 
 #### Deployment:
-Heroku
+- Heroku
 
 ## Esquema de la Base de Datos:
 ### MySQL
