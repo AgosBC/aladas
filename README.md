@@ -12,13 +12,17 @@ Entre sus funcionalidades se encuentran: registrar y cargar usuarios. Los usuari
 
 #### Backend:
 - Java 
-- SpringBoot 
+- SpringBoot
 
 #### Deployment:
-- Heroku
+- Heroku :
+  -  https://api-aladas-agos.herokuapp.com
 
-## Esquema de la Base de Datos:
-### MySQL
+#### Documentación en Postman
+<a href="https://www.getpostman.com/collections/5fb5e1c3eec6078e0ff9" class="btn btn-default">Postman Link</a>
+
+### Esquema de la Base de Datos:
+#### MySQL
 
 <p align="center">
   <img src="https://github.com/AgosBC/aladas/blob/main/img/DataBaseSchema.png" width="1000" title="hover text">
