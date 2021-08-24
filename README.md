@@ -19,7 +19,7 @@ Entre sus funcionalidades se encuentran: registrar y cargar usuarios. Los usuari
   -  https://api-aladas-agos.herokuapp.com
 
 #### Documentación en Postman
-<a href="https://www.getpostman.com/collections/5fb5e1c3eec6078e0ff9" class="btn btn-default">Postman Link</a>
+<a href="https://documenter.getpostman.com/view/16185945/TzzEouTe" class="btn btn-default">Postman Link</a>
 
 ### Esquema de la Base de Datos:
 #### MySQL
