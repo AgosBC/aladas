@@ -31,7 +31,7 @@ public class Vuelo {
 
     private BigDecimal precio;
 
-    @Column(name = "codigo_monera")
+    @Column(name = "codigo_moneda")
     private String codigoMoneda;
 
     // lista de reservas mapeada
