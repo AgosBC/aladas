@@ -82,7 +82,7 @@ public class MercadoPagoService {
         joPreference.put("payer", joPayer);
 
         joPreference.put("external_id", "RESERVA" + reserva.getReservaId());// toda info que puede identificar algo  nuestro dentro de MP
-        joPreference.put("auto_return", "all");
+        //joPreference.put("auto_return", "all"); //Redirige al cliente. Para ponerlo debo indicar cuales son las url de retorno (de error, success etc )
 
         // podria agregarse que la reserva vence en 48 hs
 
